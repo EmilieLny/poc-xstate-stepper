@@ -1,34 +1,52 @@
 import { useMachine } from "@xstate/react";
 import { stepperMachine } from "../machines/stepperMachine";
-import { Button, Card } from "antd";
+import { Button, Card, Col, Row, Input } from "antd";
 
 export const StepperPage = () => {
   const [state, send] = useMachine(stepperMachine, {
     services: {
-      completedPersoSection: async () => {
-        return "Jacques Chirac";
+      getInitialState: async () => {
+        return fetch("https://jsonplaceholder.typicode.com/users/1")
+          .then((response) => response.json())
+          .then((json) => json.name);
       },
     },
   });
   const onBack = () => {
-    send({ type: "BackToPersonal" });
+    // send({ type: "BackToPersonal" });
   };
   const onNext = () => {
-    send({ type: "CompletedPersonal", name: "TestName" });
+    // send({ type: "CompletedPersonal", name: "TestName" });
   };
 
+  const { value, context } = state;
+
   return (
-    <div>
-      <Button onClick={onBack}>Back</Button>
-      <Button onClick={onNext} type="primary">
-        Next
-      </Button>
-      <Card title="state value" style={{ width: 300 }}>
-        <pre>{JSON.stringify(state.value, undefined, 2)}</pre>
-      </Card>
-      <Card title="context" style={{ width: 300 }}>
-        <pre>{JSON.stringify(state.context, undefined, 2)}</pre>
-      </Card>
-    </div>
+    <Row>
+      <Col span={8}>
+        <Card title="state value" style={{ textAlign: "left" }}>
+          <pre>{JSON.stringify(value, undefined, 2)}</pre>
+        </Card>
+        <Card title="context" style={{ textAlign: "left" }}>
+          <pre>{JSON.stringify(context, undefined, 2)}</pre>
+        </Card>
+      </Col>
+
+      <Col span={16}>
+        <Input
+          value={context.name}
+          onChange={(e) =>
+            send({
+              type: "NameChanged",
+              data: e.target.value,
+            })
+          }
+        />
+        <Button onClick={onBack}>Back</Button>
+        <Button onClick={onNext} type="primary" disabled={!context?.name}>
+          Next
+        </Button>
+      </Col>
+    </Row>
   );
 };

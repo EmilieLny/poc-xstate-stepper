@@ -15,24 +15,25 @@ export interface Typegen0 {
     "xstate.init": { type: "xstate.init" };
   };
   invokeSrcNameMap: {
-    completedPersoSection: "done.invoke.stepper.Personal:invocation[0]";
+    getInitialState: "done.invoke.stepper.Personal:invocation[0]";
   };
   missingImplementations: {
     actions: never;
     delays: never;
     guards: never;
-    services: "completedPersoSection";
+    services: "getInitialState";
   };
   eventsCausingActions: {
     assignNameErrorToContext: "error.platform.stepper.Personal:invocation[0]";
-    assignNameToContext: "done.invoke.stepper.Personal:invocation[0]";
-    logEvent: "BackToPersonal";
+    assignNameToContext:
+      | "NameChanged"
+      | "done.invoke.stepper.Personal:invocation[0]";
   };
   eventsCausingDelays: {};
   eventsCausingGuards: {};
   eventsCausingServices: {
-    completedPersoSection: "BackToPersonal" | "xstate.init";
+    getInitialState: "xstate.init";
   };
-  matchesStates: "Personal" | "Store";
+  matchesStates: "Personal" | "Personal.NameInput" | { Personal?: "NameInput" };
   tags: never;
 }
