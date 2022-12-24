@@ -1,1 +1,1 @@
-export * from "./FirstPage";
+export * from "./ClickedPage";

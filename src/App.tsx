@@ -1,12 +1,11 @@
-import React from "react";
 import "./App.css";
-import { FirstPage } from "./pages";
+import { ClickedPage } from "./pages";
 
 function App() {
   return (
     <div className="App">
       Hello word
-      <FirstPage />
+      <ClickedPage />
     </div>
   );
 }

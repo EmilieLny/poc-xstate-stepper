@@ -1,6 +1,6 @@
 import { createMachine } from "xstate";
 
-export const firstMachine = createMachine({
+export const clickedMachine = createMachine({
   initial: "clicked",
   states: {
     clicked: {
