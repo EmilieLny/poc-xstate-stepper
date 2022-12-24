@@ -3,44 +3,36 @@
 export interface Typegen0 {
   "@@xstate/typegen": true;
   internalEvents: {
+    "done.invoke.stepper.Personal:invocation[0]": {
+      type: "done.invoke.stepper.Personal:invocation[0]";
+      data: unknown;
+      __tip: "See the XState TS docs to learn how to strongly type this.";
+    };
+    "error.platform.stepper.Personal:invocation[0]": {
+      type: "error.platform.stepper.Personal:invocation[0]";
+      data: unknown;
+    };
     "xstate.init": { type: "xstate.init" };
   };
-  invokeSrcNameMap: {};
+  invokeSrcNameMap: {
+    completedPersoSection: "done.invoke.stepper.Personal:invocation[0]";
+  };
   missingImplementations: {
     actions: never;
     delays: never;
     guards: never;
-    services: never;
+    services: "completedPersoSection";
   };
   eventsCausingActions: {
-    logEvent: "BackToPersonal" | "CompletedPersonal";
+    assignNameErrorToContext: "error.platform.stepper.Personal:invocation[0]";
+    assignNameToContext: "done.invoke.stepper.Personal:invocation[0]";
+    logEvent: "BackToPersonal";
   };
   eventsCausingDelays: {};
   eventsCausingGuards: {};
-  eventsCausingServices: {};
-  matchesStates: "Personal" | "Store";
-  tags: never;
-}
-// This file was automatically generated. Edits will be overwritten
-
-export interface Typegen0 {
-  "@@xstate/typegen": true;
-  internalEvents: {
-    "xstate.init": { type: "xstate.init" };
+  eventsCausingServices: {
+    completedPersoSection: "BackToPersonal" | "xstate.init";
   };
-  invokeSrcNameMap: {};
-  missingImplementations: {
-    actions: never;
-    delays: never;
-    guards: never;
-    services: never;
-  };
-  eventsCausingActions: {
-    logEvent: "BackToPersonal" | "CompletedPersonal";
-  };
-  eventsCausingDelays: {};
-  eventsCausingGuards: {};
-  eventsCausingServices: {};
   matchesStates: "Personal" | "Store";
   tags: never;
 }
