@@ -1,6 +1,6 @@
 import { useMachine } from "@xstate/react";
 import { stepperMachine } from "../machines/stepperMachine";
-import { Button, Card, Col, Row, Input } from "antd";
+import { Button, Card, Col, Row, Input, Typography, Radio } from "antd";
 
 export const StepperPage = () => {
   const [state, send] = useMachine(stepperMachine, {
@@ -13,10 +13,10 @@ export const StepperPage = () => {
     },
   });
   const onBack = () => {
-    // send({ type: "BackToPersonal" });
+    send({ type: "OnBack" });
   };
   const onNext = () => {
-    // send({ type: "CompletedPersonal", name: "TestName" });
+    send({ type: "OnNext" });
   };
 
   const { value, context } = state;
@@ -33,19 +33,60 @@ export const StepperPage = () => {
       </Col>
 
       <Col span={16}>
-        <Input
-          value={context.name}
-          onChange={(e) =>
-            send({
-              type: "NameChanged",
-              data: e.target.value,
-            })
-          }
-        />
-        <Button onClick={onBack}>Back</Button>
-        <Button onClick={onNext} type="primary" disabled={!context?.name}>
-          Next
-        </Button>
+        {state.matches("Personal") && (
+          <>
+            <Typography.Title level={3}>What's your name ?</Typography.Title>
+            <Input
+              value={context.name}
+              onChange={(e) =>
+                send({
+                  type: "NameChanged",
+                  data: e.target.value,
+                })
+              }
+            />
+          </>
+        )}
+        {state.matches("Store.PlatformType") && (
+          <>
+            <Typography.Title level={3}>
+              What Platform do you use {context.name} ?
+            </Typography.Title>
+            <Radio.Group
+              options={["shopify", "amazon", "ebay"]}
+              onChange={(e) =>
+                send({
+                  type: "PlatformChanged",
+                  data: e.target.value,
+                })
+              }
+              value={context.platform}
+              optionType="button"
+            />
+          </>
+        )}
+        {state.matches("Store.StoreName") && (
+          <>
+            <Typography.Title level={3}>
+              What the name of your {context.platform} store ?
+            </Typography.Title>
+            <Input
+              value={context.storeName}
+              onChange={(e) =>
+                send({
+                  type: "StoreNameChanged",
+                  data: e.target.value,
+                })
+              }
+            />
+          </>
+        )}
+        <Row>
+          <Button onClick={onBack}>Back</Button>
+          <Button onClick={onNext} type="primary" disabled={!context?.name}>
+            Next
+          </Button>
+        </Row>
       </Col>
     </Row>
   );

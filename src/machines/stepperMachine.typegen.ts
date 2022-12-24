@@ -28,12 +28,20 @@ export interface Typegen0 {
     assignNameToContext:
       | "NameChanged"
       | "done.invoke.stepper.Personal:invocation[0]";
+    assignPlatformToContext: "PlatformChanged";
+    assignStoreNameToContext: "StoreNameChanged";
   };
   eventsCausingDelays: {};
   eventsCausingGuards: {};
   eventsCausingServices: {
-    getInitialState: "xstate.init";
+    getInitialState: "OnBack" | "xstate.init";
   };
-  matchesStates: "Personal" | "Personal.NameInput" | { Personal?: "NameInput" };
+  matchesStates:
+    | "Personal"
+    | "Personal.NameInput"
+    | "Store"
+    | "Store.PlatformType"
+    | "Store.StoreName"
+    | { Personal?: "NameInput"; Store?: "PlatformType" | "StoreName" };
   tags: never;
 }

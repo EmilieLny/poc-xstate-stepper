@@ -1,7 +1,7 @@
 import { createMachine, assign } from "xstate";
 
 export const stepperMachine =
-  /** @xstate-layout N4IgpgJg5mDOIC5SwC5gA7rAJwHQAUdYB7AOwEMAbAYgjLFwEtSA3YgawdQyz0OxIVKCZmwDG5FIzIBtAAwBdeQsSh0xWIyllVIAB6IALAHYAbLgAcFgKwAmYwGYAjMYu3Tcp9YA0IAJ6IALSGDnK4rg7W1o6GcgCcThYOAL7JvtyYOAREZFTUONjEeOiUkgBmRQC2uBm82QK5wqLEEtqkysq66pptugYIgZFxuHG2LqZeHrbWcnI+-kGxFiNe8Q6jDoamcXHWqelomXw5QrgAcuSVYACSpOgArijUF1cAwgAW5KQwEJ1IIN0tNJSH1ENFcJ45A5bHFoY43G5fAEBk4HA4IYYxk4dsZrKZTFFjPsQLUsgBlFBFMDUABC5DE7AAKsR+IIqH81BogTp-v1AtNjLhrKFrCE4q44oY8UjEC5LJF4rZbFY5BZJUS0iTDnVWY1qGRdUJXsRKiUwGhfooulzerzZU5bLhnE4XXIpcZdlsnDKELZ0YZXbY5I4PYYtm5UprSMQIHBdKTsNaesDQQNYoLRuNJnJprN5sjAtZErhlZFolKQutDMSE-U2ZQk9yQXaEGElXE5KZodNYX6ZokfYNQhixsHjO5cbjq5ra4aqOdLjc7o9G7bQP1DMt253u9Ze5FB9jrELMS6XWjYesUjPteTKdgwKuUy3+ceYZtJar1viLF2faj0TsIsxmFWJUS8SNkiAA */
+  /** @xstate-layout N4IgpgJg5mDOIC5SwC5gA7rAJwHQAUdYB7AOwEMAbAYgjLFwEtSA3YgawdQyz0OxIVKCZmwDG5FIzIBtAAwBdeQsSh0xWIyllVIAB6IATAGYAHLkOHTxgCwBGAKxyAnHOPPnhgDQgAnogBaGytcUzs7ezkwm1c3GwBfeJ9uTBwCIjIqahxsYjx0SkkAMzyAW1wU3nSBTOFRYgltUmVlXXVNJt0DBADjB2dcTzsAdgA2R1G5Qyc5Bx9-HpsowccXdxMbUY8HROS0VL4MoVwAOXJSsABJUnQAVxRqM4uAYQALclIYCFakEHataSkLqBTa4JzrOSbWwOTajeaBQwRXDGEYeUaGGw2UxbdG7ECVNL8QRUU7nK43e7UADypBOYD0KB+ag0AJ0v26dlGxmR7mGwzs005kTmfkCDm5wVMzmslmMLjszmMeIJeAAyig8gx8IUUCVsKUACq+LDUbXFMpvD5fJl-FmddmIGwOBwrTwotwoznDeE9OxmMGWaYOUwOYaGMOmQzK-ZVdWagg6vWG41gam0+mMxRtO2A4EIfpyZGzKXOP0ODHGOGihDTGwWYZyOThfoNpxRpL4mNpOPYLWJspGk00gBC5DE7Bt-3toA5y1Mpjkw1Dpidkw8xh9GORUoX-PGdhDzujPG7Gt7uB7YCeqcv18tn0gk5zbJniHFLoco0-mL5WMrIoWSY7FwA9hiWLZNmxUZjwOC8zwYW8yTTOkGSfDpcwdBBbG5cIllmPDpQPADECAkDTDAuQINGKCYNjeC4M1a801Hcc0NZIFMOMWxcDGYZnD3YZI34zFNxhetG2bfjZimJU8VIYgIDgXQVWzdCX30EFF0GRExgmKYZmInoHE5ZFcLccJnEmRFaMJI4qFU9i8wCZw63BTxIS5J1YR9XosVCVEV3nLjBR2DsVWqYlKFJC5rjuFAHOnDSEDsQtAzGexK3GRswh8-lcE2EYFUEpcFXFGy1XghKMNfGsxlwJtPIxKIXJDHzLFGerAy5GFS0RSzyoY88zV1AcUyq9TumMLcGtsJqpSxQytzMaVy0rfT7DsAbL0Gq8yXGjiasxAZMU5YNMXGQTbB9Gw8uccUvz9ewwMVRJEiAA */
   createMachine(
     {
       id: "stepper",
@@ -12,18 +12,39 @@ export const stepperMachine =
             data: string;
           };
         },
-        events: {} as {
-          type: "NameChanged";
-          data: string;
-        },
+        events: {} as
+          | {
+              type: "NameChanged";
+              data: string;
+            }
+          | {
+              type: "OnNext";
+            }
+          | {
+              type: "OnBack";
+            }
+          | {
+              type: "PlatformChanged";
+              data: "shopify" | "amazon" | "ebay";
+            }
+          | {
+              type: "StoreNameChanged";
+              data: string;
+            }
+          | {
+              type: "OnSavePlatform";
+            },
       },
       context: {
         name: "" as string,
+        platform: undefined as undefined | "shopify" | "amazon" | "ebay",
+        storeName: "" as string,
         errorMsg: undefined as string | undefined,
       },
       tsTypes: {} as import("./stepperMachine.typegen").Typegen0,
       states: {
         Personal: {
+          initial: "NameInput",
           invoke: {
             src: "getInitialState",
             onDone: {
@@ -40,39 +61,52 @@ export const stepperMachine =
                 NameChanged: {
                   actions: "assignNameToContext",
                 },
+                OnNext: "#stepper.Store",
               },
             },
           },
-
-          initial: "NameInput",
-
-          //   on: {
-          //     onPersonalCompleted: "Store",
-          //   },
         },
-        // Store: {
-        //   on: {
-        //     BackToPersonal: {
-        //       target: "Personal",
-        //       actions: "logEvent",
-        //     },
-        //   },
-        // },
+
+        Store: {
+          initial: "PlatformType",
+          states: {
+            PlatformType: {
+              on: {
+                PlatformChanged: {
+                  actions: "assignPlatformToContext",
+                },
+                OnNext: "#stepper.Store.StoreName",
+                OnBack: "#stepper.Personal.NameInput",
+              },
+            },
+
+            StoreName: {
+              on: {
+                StoreNameChanged: {
+                  actions: "assignStoreNameToContext",
+                },
+                OnNext: "#stepper.Store.StoreName",
+                OnBack: "#stepper.Store.PlatformType",
+              },
+            },
+          },
+        },
       },
     },
     {
       actions: {
-        // logEvent: (context, event) => console.log(event),
         assignNameToContext: assign((context, event) => ({
           name: event?.data || "",
+        })),
+        assignPlatformToContext: assign((context, event) => ({
+          platform: event?.data || undefined,
+        })),
+        assignStoreNameToContext: assign((context, event) => ({
+          storeName: event?.data || "",
         })),
         assignNameErrorToContext: assign((context, event) => ({
           errorMsg: (event.data as Error).message,
         })),
-
-        // assignNameInputToContext: assign((context, event) => ({
-        //   name: event.value,
-        // })),
       },
     }
   );
