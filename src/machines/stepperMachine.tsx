@@ -11,7 +11,7 @@ export const stepperMachine =
           | { type: "CompletedPersonal"; name: string }
           | { type: "BackToPersonal" },
       },
-
+      tsTypes: {} as import("./stepperMachine.typegen").Typegen0,
       states: {
         Personal: {
           on: {
