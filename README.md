@@ -1,46 +1,39 @@
-# Getting Started with Create React App
+# XState in React POC
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This repository contains a Proof of Concept (POC) demonstrating the use of xState in a React application. In this POC, we have implemented a simple state machine with two steps. The application showcases the following features:
 
-## Available Scripts
+- Displaying context's value updating onChange.
+- Reusing values from previous steps.
+- Disabling the "Next" button if the input is not valid.
+- Allowing users to go back to the previous step.
 
-In the project directory, you can run:
+## Getting Started
+To run this POC locally, follow these steps:
 
-### `npm start`
+- Clone this repository to your local machine.
+- Navigate to the project directory.
+- Run `npm install` to install the dependencies.
+- Run `npm start` to start the development server.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+## Features
+- **Live State Updates**: The application shows the state of the context, updating live as the user interacts with the steps.
 
-The page will reload if you make edits.\
-You will also see any lint errors in the console.
+- **Input Validation**: The "Next" button is disabled if the input is not valid, providing a better user experience.
 
-### `npm test`
+- **Step Navigation**: Users can go back to the previous step using the "Back" button.
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+## Usage
 
-### `npm run build`
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+When you open the application, you will see the first step with an input field.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+Enter a valid input value (e.g. your name) to enable the "Next" button and proceed to the next step.
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+The live state updates will reflect the changes in the context as you navigate through the steps.
 
-### `npm run eject`
+You can also use the "Back" button to go back to the previous step at any time.
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
-
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
-
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
-
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
-
-## Learn More
-
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
-
-To learn React, check out the [React documentation](https://reactjs.org/).
+# Technologies Used
+- React
+- xState
+- antd
