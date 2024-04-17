@@ -34,6 +34,6 @@ The live state updates will reflect the changes in the context as you navigate t
 You can also use the "Back" button to go back to the previous step at any time.
 
 # Technologies Used
-- React
-- xState
-- antd
+- [React](https://react.dev/)
+- [xState](https://stately.ai/docs/xstate)
+- [AntD](https://ant.design/)
